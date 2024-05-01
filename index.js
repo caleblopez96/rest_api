@@ -1,8 +1,7 @@
 const express = require('express'); // import express js module 
-const app = express(); // Create new express app instance
-
 const crypto = require('crypto'); // node function to generate UUID
 
+const app = express(); // Create new express app instance
 app.use(express.json()); // middleware function to parse incoming JSON payload
 
 const products = [
