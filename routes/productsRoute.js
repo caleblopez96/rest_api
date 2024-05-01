@@ -26,68 +26,66 @@ const products = [
 ]
 
 router.get('/', (request, response) => {
-response.json(products);
+  response.json(products);
 })
 
 router.post('/', (request, response) => {
-const { name, price, quantity, active } = request.body
+  const { name, price, quantity, active } = request.body;
 
 // check if request contains a name, if not 422 req
-if(!name) {
-  return response.status(422).json({ message: "name is required" });
+  if(!name) {
+    return response.status(422).json({ message: "name is required" });
 }
 
-const id = crypto.randomUUID();
+  const id = crypto.randomUUID();
 
-products.push({
-  id,
-  name,
-  price,
-  quantity,
-  active
-})
+  products.push({
+    id,
+    name,
+    price,
+    quantity,
+    active
+});
 
 response.status(201).json({ message: "product created successfully", id });
 })
 
 router.get('/:id', (request, response) => {
-const product = products.find(product => product.id == request.params.id);
-
-if(!product) {
-  return response.status(404).json({ message: "product not found" })
+  const product = products.find(product => product.id == request.params.id);
+  
+  if(!product) {
+    return response.status(404).json({ message: "product not found" });
 }
-
-response.json(product);
-})
+  response.json(product);
+});
 
 router.put('/:id', (request, response) => {
-const product = products.find(product => product.id == request.params.id);
+  const product = products.find(product => product.id == request.params.id);
 
-if(!product) {
-  return response.status(404).json({ message: "product not found" })
+  if(!product) {
+    return response.status(404).json({ message: "product not found" })
 }
 
-const { name, price, quantity, active } = request.body
+  const { name, price, quantity, active } = request.body
 
-if(name){
-  product.name = name
+  if(name){
+    product.name = name
 }
 
-if(price){
-  product.price = price
+  if(price){
+    product.price = price
 }
 
-if(quantity){
-  product.quantity = quantity
+  if(quantity){
+    product.quantity = quantity
 }
 
-if('active' in request.body){
-  product.active = active
+  if('active' in request.body){
+    product.active = active
 }
 
 response.status(200).json({ message: "product updated successfully" });
-
-})
+});
 
 router.delete('/:id', (request, response) => {
   const productIndex = products.findIndex(product => product.id == request.params.id);
@@ -97,9 +95,10 @@ router.delete('/:id', (request, response) => {
     return response.status(404).json({ message: "product not found" })
 }
 
-products.splice(productIndex, 1);
+  products.splice(productIndex, 1);
 
-response.status(200).json({ message: "product deleted successfully" });
-})
+  response.status(200).json({ message: "product deleted successfully" });
+});
+
 
 module.exports = router
